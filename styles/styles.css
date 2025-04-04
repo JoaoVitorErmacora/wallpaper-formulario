@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background-color: #141016;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  height: 90%;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.image {
+  position: relative;
+  width: 40%;
+  height: 100%;
+  background: url("../images/torcida-do-corinthians-durante-final-do-campeonato-paulista-contra-o-palmeiras-1743130497307_v2_3x4.jpg")
+    center / cover no-repeat;
+  border-radius: 20px;
+}
+
+.image::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 15px;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: 20px;
+  filter: blur(20px) opacity(1);
+  z-index: -1;
+}
+
+.form_container h1 {
+  color: #fff;
+  font-size: 3em;
+  text-shadow: 2px 2px 20px #742b37;
+}
+
+form {
+  margin-top: 40px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  height: 50%;
+}
+
+form .input_data {
+  width: calc(50% - 15px);
+  position: relative;
+}
+
+form .input_data input {
+  width: 100%;
+  height: 50px;
+  font-size: 14px;
+  padding: 7px 10px;
+  outline: none;
+  border-radius: 10px;
+  background-color: transparent;
+  border: 2px solid #fff;
+  position: relative;
+  z-index: 500;
+  color: #fff;
+}
+
+form .input_data .label_area {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  background-color: #141016;
+  color: #fff;
+  padding: 0 15px;
+  transition: top 0.5s ease, left 0.5s ease;
+}
+
+form .input_data input:focus,
+form .input_data input:valid {
+  color: #742b37;
+  border-color: #742b37;
+}
+
+form .input_data input:focus ~ .label_area {
+  z-index: 600;
+  top: 0;
+  left: 7%;
+  color: #742b37;
+}
+
+fotm button:hover {
+  background-color: #742b37;
+}
