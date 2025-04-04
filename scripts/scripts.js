@@ -38,3 +38,9 @@ function buscarEndereco(cep) {
       });
   });
 }
+
+buscarEndereco("01001000")
+  .then((endereco) => {
+    console.log("Endereço encontrado: ", endereco);
+  })
+  .catch((error) => console.log(error));
