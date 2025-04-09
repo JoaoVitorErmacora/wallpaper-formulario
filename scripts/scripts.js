@@ -86,9 +86,9 @@ class Endereço {
       console.log(dados);
 
       this.cep = dados.cep;
-      this.rua = dados.rua;
+      this.rua = dados.logradouro;
       this.bairro = dados.bairro;
-      this.cidade = dados.cidade;
+      this.cidade = dados.localidade;
       this.uf = dados.uf;
       this.complemento = dados.complemento || "";
     } catch (error) {
