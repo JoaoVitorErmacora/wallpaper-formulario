@@ -62,7 +62,7 @@ async function buscarEndereco(cep) {
 buscarEndereco("01001000");
 console.log("Requisição enviada!");
 
-class Endereço {
+class Endereco {
   constructor(
     cep = "",
     rua = "",
@@ -81,7 +81,7 @@ class Endereço {
   async buscarEndereco(cep) {
     try {
       let response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-      let dados = await resposta.json();
+      let dados = await response.json();
 
       console.log(dados);
 
@@ -91,6 +91,7 @@ class Endereço {
       this.cidade = dados.localidade;
       this.uf = dados.uf;
       this.complemento = dados.complemento || "";
+      return this;
     } catch (error) {
       console.log(error);
       return null;
@@ -98,25 +99,10 @@ class Endereço {
   }
 }
 
-class TipoEndereco extends Endereço {
-  constructor(
-    cep = "",
-    rua = "",
-    bairro = "",
-    cidade = "",
-    uf = "",
-    complemento = "",
-    tipo
-  ) {
-    super(
-      (cep = ""),
-      (rua = ""),
-      (bairro = ""),
-      (cidade = ""),
-      (uf = ""),
-      (complemento = "")
-    );
-    this.tipo = this.tipo;
+class TipoEndereco extends Endereco {
+  constructor(cep, rua, bairro, cidade, uf, complemento, tipo) {
+    super(cep, rua, bairro, cidade, uf, complemento);
+    this.tipo = tipo;
   }
   exibirEndereco() {
     return {
@@ -126,28 +112,58 @@ class TipoEndereco extends Endereço {
       bairro: this.bairro,
       cidade: this.cidade,
       ud: this.uf,
-      complemento: this.complemento,
+      complemento: this.complemento || "",
     };
   }
 }
 
-document.getElementById("cep").addEventListener("input", async function () {
-  const cep = event.target.value;
+document
+  .getElementById("cep")
+  .addEventListener("input", async function (event) {
+    const cep = event.target.value.replace(/\D/g, "");
 
-  console.log(cep);
+    console.log(cep);
 
-  if (cep.length === 8) {
-    const endereco = new Endereco();
-    const results = await endereco.buscarEndereco(cep);
-
-    if (results) {
-      document.getElementById("rua").value = results.rua;
-      document.getElementById("bairro").value = results.bairrp;
-      document.getElementById("cidade").value = results.cidade;
-      document.getElementById("uf").value = results.uf;
-      document.getElementById("complemento").value = results.complemento || "";
-    } else {
-      alert("CEP INVÁLIDO!");
+    if (cep.length === 8) {
+      const endereco = new Endereco();
+      const results = await endereco.buscarEndereco(cep);
+      console.log(results);
+      if (results) {
+        document.getElementById("rua").value = results.rua;
+        document.getElementById("bairro").value = results.bairro;
+        document.getElementById("cidade").value = results.cidade;
+        document.getElementById("uf").value = results.uf;
+        document.getElementById("complemento").value =
+          results.complemento || "";
+      } else {
+        alert("CEP INVÁLIDO!");
+      }
     }
-  }
+  });
+
+document.querySelector("form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const cep = document.getElementById("cep").value;
+  const rua = document.getElementById("rua").value;
+  const bairro = document.getElementById("bairro").value;
+  const cidade = document.getElementById("cidade").value;
+  const uf = document.getElementById("uf").value;
+  const complemento = document.getElementById("complemento").value;
+  const tipo = document.getElementById("tipo").value;
+
+  const enderecoCompleto = new TipoEndereco(
+    cep,
+    rua,
+    bairro,
+    cidade,
+    uf,
+    complemento,
+    tipo
+  );
+
+  console.log(
+    "Endereço cadastrado com sucesso! \n" +
+      JSON.stringify(enderecoCompleto.exibirEndereco(), null, 2)
+  );
 });
